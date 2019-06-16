@@ -12,16 +12,15 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.mindlin.jsast.tree.ArrayLiteralTree;
-import com.mindlin.jsast.tree.BinaryExpressionTree;
-import com.mindlin.jsast.tree.ForEachLoopTree;
-import com.mindlin.jsast.tree.ForLoopTree;
-import com.mindlin.jsast.tree.LabeledStatementTree;
-import com.mindlin.jsast.tree.Tree.Kind;
-import com.mindlin.jsast.tree.UnaryTree;
-import com.mindlin.jsast.tree.VariableDeclarationTree;
-import com.mindlin.jsast.tree.VariableDeclarationTree.VariableDeclarationKind;
-import com.mindlin.jsast.tree.VariableDeclaratorTree;
+import com.mindlin.nautilus.tree.ArrayLiteralTree;
+import com.mindlin.nautilus.tree.BinaryExpressionTree;
+import com.mindlin.nautilus.tree.ForEachLoopTree;
+import com.mindlin.nautilus.tree.ForLoopTree;
+import com.mindlin.nautilus.tree.LabeledStatementTree;
+import com.mindlin.nautilus.tree.Tree.Kind;
+import com.mindlin.nautilus.tree.VariableDeclarationTree;
+import com.mindlin.nautilus.tree.VariableDeclarationTree.VariableDeclarationKind;
+import com.mindlin.nautilus.tree.VariableDeclaratorTree;
 
 public class ForLoopTest {
 	@Test

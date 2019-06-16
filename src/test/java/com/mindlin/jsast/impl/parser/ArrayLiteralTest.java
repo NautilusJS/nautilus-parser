@@ -10,10 +10,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.mindlin.jsast.tree.ArrayLiteralTree;
-import com.mindlin.jsast.tree.ExpressionTree;
-import com.mindlin.jsast.tree.ObjectLiteralTree;
-import com.mindlin.jsast.tree.Tree.Kind;
+import com.mindlin.nautilus.tree.ArrayLiteralTree;
+import com.mindlin.nautilus.tree.ExpressionTree;
+import com.mindlin.nautilus.tree.ObjectLiteralTree;
+import com.mindlin.nautilus.tree.Tree.Kind;
 
 public class ArrayLiteralTest {
 	

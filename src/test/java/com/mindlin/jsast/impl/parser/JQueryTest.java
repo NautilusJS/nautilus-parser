@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import org.junit.Test;
 
 import com.mindlin.jsast.impl.lexer.JSLexer;
-import com.mindlin.jsast.tree.CompilationUnitTree;
+import com.mindlin.nautilus.tree.CompilationUnitTree;
 
 public class JQueryTest {
 	@Test

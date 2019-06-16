@@ -13,15 +13,15 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.mindlin.jsast.tree.MethodSignatureTree;
-import com.mindlin.jsast.tree.Modifiers;
-import com.mindlin.jsast.tree.PropertySignatureTree;
-import com.mindlin.jsast.tree.SignatureDeclarationTree.CallSignatureTree;
-import com.mindlin.jsast.tree.SignatureDeclarationTree.ConstructSignatureTree;
-import com.mindlin.jsast.tree.Tree.Kind;
-import com.mindlin.jsast.tree.type.InterfaceDeclarationTree;
-import com.mindlin.jsast.tree.type.SpecialTypeTree.SpecialType;
-import com.mindlin.jsast.tree.type.TypeElementTree;
+import com.mindlin.nautilus.tree.MethodSignatureTree;
+import com.mindlin.nautilus.tree.Modifiers;
+import com.mindlin.nautilus.tree.PropertySignatureTree;
+import com.mindlin.nautilus.tree.SignatureDeclarationTree.CallSignatureTree;
+import com.mindlin.nautilus.tree.SignatureDeclarationTree.ConstructSignatureTree;
+import com.mindlin.nautilus.tree.Tree.Kind;
+import com.mindlin.nautilus.tree.type.InterfaceDeclarationTree;
+import com.mindlin.nautilus.tree.type.SpecialTypeTree.SpecialType;
+import com.mindlin.nautilus.tree.type.TypeElementTree;
 
 public class InterfaceDeclarationTest {
 	

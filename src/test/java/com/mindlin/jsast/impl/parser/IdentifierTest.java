@@ -6,10 +6,10 @@ import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
-import com.mindlin.jsast.tree.ExpressionTree;
-import com.mindlin.jsast.tree.IdentifierTree;
-import com.mindlin.jsast.tree.Tree;
-import com.mindlin.jsast.tree.Tree.Kind;
+import com.mindlin.nautilus.tree.ExpressionTree;
+import com.mindlin.nautilus.tree.IdentifierTree;
+import com.mindlin.nautilus.tree.Tree;
+import com.mindlin.nautilus.tree.Tree.Kind;
 
 public class IdentifierTest {
 	static void testIdentifier(String expected, String identifier) {

@@ -12,9 +12,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.mindlin.jsast.tree.ImportDeclarationTree;
-import com.mindlin.jsast.tree.ImportSpecifierTree;
-import com.mindlin.jsast.tree.Tree.Kind;
+import com.mindlin.nautilus.tree.ImportDeclarationTree;
+import com.mindlin.nautilus.tree.ImportSpecifierTree;
+import com.mindlin.nautilus.tree.Tree.Kind;
 public class ImportStatementTest {
 
 	/**

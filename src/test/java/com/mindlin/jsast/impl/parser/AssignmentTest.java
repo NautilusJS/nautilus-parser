@@ -7,8 +7,8 @@ import static com.mindlin.jsast.impl.parser.JSParserTest.parseExpression;
 
 import org.junit.Test;
 
-import com.mindlin.jsast.tree.AssignmentTree;
-import com.mindlin.jsast.tree.Tree.Kind;
+import com.mindlin.nautilus.tree.AssignmentTree;
+import com.mindlin.nautilus.tree.Tree.Kind;
 
 public class AssignmentTest {
 	@Test
