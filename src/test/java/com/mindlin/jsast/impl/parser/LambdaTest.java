@@ -16,12 +16,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.mindlin.jsast.tree.FunctionExpressionTree;
-import com.mindlin.jsast.tree.Modifiers;
-import com.mindlin.jsast.tree.ParameterTree;
-import com.mindlin.jsast.tree.ReturnTree;
-import com.mindlin.jsast.tree.Tree.Kind;
-import com.mindlin.jsast.tree.type.SpecialTypeTree.SpecialType;
+import com.mindlin.nautilus.tree.Modifiers;
+import com.mindlin.nautilus.tree.ParameterTree;
+import com.mindlin.nautilus.tree.ReturnTree;
+import com.mindlin.nautilus.tree.Tree.Kind;
+import com.mindlin.nautilus.tree.type.SpecialTypeTree.SpecialType;
 
 public class LambdaTest {
 	
