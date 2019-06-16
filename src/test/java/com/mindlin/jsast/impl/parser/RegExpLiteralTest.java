@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.mindlin.jsast.tree.RegExpLiteralTree;
-import com.mindlin.jsast.tree.Tree.Kind;
+import com.mindlin.nautilus.tree.RegExpLiteralTree;
+import com.mindlin.nautilus.tree.Tree.Kind;
 
 
 public class RegExpLiteralTest {
