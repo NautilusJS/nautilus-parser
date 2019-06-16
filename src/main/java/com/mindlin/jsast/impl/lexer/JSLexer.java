@@ -44,10 +44,12 @@ public class JSLexer implements Supplier<Token>, Closeable {
 	//TODO: supply source file
 	protected final LineMapBuilder lines;
 	
+	@SuppressWarnings("resource")
 	public JSLexer(String src) {
 		this(new CharacterArrayStream(src));
 	}
 	
+	@SuppressWarnings("resource")
 	public JSLexer(char[] chars) {
 		this(new CharacterArrayStream(chars));
 	}
@@ -56,7 +58,7 @@ public class JSLexer implements Supplier<Token>, Closeable {
 		this(null, chars);
 	}
 	
-	public JSLexer(SourceFile source) {
+	public JSLexer(SourceFile source) throws IOException {
 		this(source, source.getSourceStream());
 	}
 	
