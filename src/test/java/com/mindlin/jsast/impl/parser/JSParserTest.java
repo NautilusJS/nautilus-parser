@@ -19,17 +19,17 @@ import com.mindlin.jsast.exception.JSSyntaxException;
 import com.mindlin.jsast.exception.JSUnsupportedException;
 import com.mindlin.jsast.impl.lexer.JSLexer;
 import com.mindlin.jsast.impl.parser.JSParser.Context;
-import com.mindlin.jsast.tree.ExpressionTree;
-import com.mindlin.jsast.tree.IdentifierTree;
-import com.mindlin.jsast.tree.Modifiers;
-import com.mindlin.jsast.tree.NumericLiteralTree;
-import com.mindlin.jsast.tree.StatementTree;
-import com.mindlin.jsast.tree.StringLiteralTree;
-import com.mindlin.jsast.tree.Tree;
-import com.mindlin.jsast.tree.Tree.Kind;
-import com.mindlin.jsast.tree.type.SpecialTypeTree;
-import com.mindlin.jsast.tree.type.SpecialTypeTree.SpecialType;
-import com.mindlin.jsast.tree.type.TypeTree;
+import com.mindlin.nautilus.tree.ExpressionTree;
+import com.mindlin.nautilus.tree.IdentifierTree;
+import com.mindlin.nautilus.tree.Modifiers;
+import com.mindlin.nautilus.tree.NumericLiteralTree;
+import com.mindlin.nautilus.tree.StatementTree;
+import com.mindlin.nautilus.tree.StringLiteralTree;
+import com.mindlin.nautilus.tree.Tree;
+import com.mindlin.nautilus.tree.Tree.Kind;
+import com.mindlin.nautilus.tree.type.SpecialTypeTree;
+import com.mindlin.nautilus.tree.type.SpecialTypeTree.SpecialType;
+import com.mindlin.nautilus.tree.type.TypeTree;
 import com.mindlin.nautilus.fs.SourceFile.NominalSourceFile;
 
 @RunWith(Suite.class)
