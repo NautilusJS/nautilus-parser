@@ -2,9 +2,9 @@ package com.mindlin.jsast.impl.parser;
 
 import java.util.List;
 
-import com.mindlin.jsast.tree.ExpressionTree;
-import com.mindlin.jsast.tree.ParenthesizedTree;
-import com.mindlin.jsast.tree.SequenceExpressionTree;
+import com.mindlin.nautilus.tree.ExpressionTree;
+import com.mindlin.nautilus.tree.ParenthesizedTree;
+import com.mindlin.nautilus.tree.SequenceExpressionTree;
 
 /**
  * This is a helper class for {@link com.mindlin.jsast.impl.parser.JSParser JSParser} to throw errors
@@ -44,7 +44,7 @@ public class Validator {
 				SequenceExpressionTree seq = (SequenceExpressionTree) expr;
 				if (!dialect.supports("extension.inferlval"))
 					return false;
-				List<ExpressionTree> elements = seq.getElements();
+				List<? extends ExpressionTree> elements = seq.getElements();
 				return canBeAssigned(elements.get(elements.size() - 1), dialect);
 			}
 			//TODO any others?

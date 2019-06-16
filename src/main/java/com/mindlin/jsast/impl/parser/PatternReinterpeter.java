@@ -9,45 +9,43 @@ import com.mindlin.jsast.exception.JSSyntaxException;
 import com.mindlin.jsast.exception.JSUnsupportedException;
 import com.mindlin.jsast.impl.tree.ArrayPatternTreeImpl;
 import com.mindlin.jsast.impl.tree.ObjectPatternTreeImpl;
-import com.mindlin.jsast.tree.ArrayLiteralTree;
-import com.mindlin.jsast.tree.AssignmentPropertyTree;
-import com.mindlin.jsast.tree.AssignmentTree;
-import com.mindlin.jsast.tree.BinaryExpressionTree;
-import com.mindlin.jsast.tree.BooleanLiteralTree;
-import com.mindlin.jsast.tree.CastExpressionTree;
-import com.mindlin.jsast.tree.ClassTreeBase.ClassExpressionTree;
-import com.mindlin.jsast.tree.ConditionalExpressionTree;
-import com.mindlin.jsast.tree.ExpressionTree;
-import com.mindlin.jsast.tree.ExpressionTreeVisitor;
-import com.mindlin.jsast.tree.FunctionCallTree;
-import com.mindlin.jsast.tree.FunctionExpressionTree;
-import com.mindlin.jsast.tree.GetAccessorDeclarationTree;
-import com.mindlin.jsast.tree.IdentifierTree;
-import com.mindlin.jsast.tree.MemberExpressionTree;
-import com.mindlin.jsast.tree.MethodDeclarationTree;
-import com.mindlin.jsast.tree.NewTree;
-import com.mindlin.jsast.tree.NullLiteralTree;
-import com.mindlin.jsast.tree.NumericLiteralTree;
-import com.mindlin.jsast.tree.ObjectLiteralElement;
-import com.mindlin.jsast.tree.ObjectLiteralElementVisitor;
-import com.mindlin.jsast.tree.ObjectLiteralTree;
-import com.mindlin.jsast.tree.ObjectPatternTree.ObjectPatternElement;
-import com.mindlin.jsast.tree.ParenthesizedTree;
-import com.mindlin.jsast.tree.PatternTree;
-import com.mindlin.jsast.tree.RegExpLiteralTree;
-import com.mindlin.jsast.tree.SequenceExpressionTree;
-import com.mindlin.jsast.tree.SetAccessorDeclarationTree;
-import com.mindlin.jsast.tree.ShorthandAssignmentPropertyTree;
-import com.mindlin.jsast.tree.SpreadElementTree;
-import com.mindlin.jsast.tree.StringLiteralTree;
-import com.mindlin.jsast.tree.SuperExpressionTree;
-import com.mindlin.jsast.tree.TaggedTemplateLiteralTree;
-import com.mindlin.jsast.tree.TemplateLiteralTree;
-import com.mindlin.jsast.tree.ThisExpressionTree;
-import com.mindlin.jsast.tree.Tree;
-import com.mindlin.jsast.tree.Tree.Kind;
-import com.mindlin.jsast.tree.UnaryTree;
-import com.mindlin.jsast.tree.UnaryTree.AwaitTree;
+import com.mindlin.nautilus.tree.ArrayLiteralTree;
+import com.mindlin.nautilus.tree.AssignmentPropertyTree;
+import com.mindlin.nautilus.tree.AssignmentTree;
+import com.mindlin.nautilus.tree.BinaryExpressionTree;
+import com.mindlin.nautilus.tree.BooleanLiteralTree;
+import com.mindlin.nautilus.tree.CastExpressionTree;
+import com.mindlin.nautilus.tree.ClassTreeBase.ClassExpressionTree;
+import com.mindlin.nautilus.tree.ConditionalExpressionTree;
+import com.mindlin.nautilus.tree.ExpressionTree;
+import com.mindlin.nautilus.tree.ExpressionTree.MemberExpressionTree;
+import com.mindlin.nautilus.tree.ExpressionTreeVisitor;
+import com.mindlin.nautilus.tree.FunctionCallTree;
+import com.mindlin.nautilus.tree.FunctionExpressionTree;
+import com.mindlin.nautilus.tree.GetAccessorDeclarationTree;
+import com.mindlin.nautilus.tree.IdentifierTree;
+import com.mindlin.nautilus.tree.MethodDeclarationTree;
+import com.mindlin.nautilus.tree.NewTree;
+import com.mindlin.nautilus.tree.NullLiteralTree;
+import com.mindlin.nautilus.tree.NumericLiteralTree;
+import com.mindlin.nautilus.tree.ObjectLiteralElement;
+import com.mindlin.nautilus.tree.ObjectLiteralElementVisitor;
+import com.mindlin.nautilus.tree.ObjectLiteralTree;
+import com.mindlin.nautilus.tree.ObjectPatternTree.ObjectPatternElement;
+import com.mindlin.nautilus.tree.ParenthesizedTree;
+import com.mindlin.nautilus.tree.PatternTree;
+import com.mindlin.nautilus.tree.RegExpLiteralTree;
+import com.mindlin.nautilus.tree.SequenceExpressionTree;
+import com.mindlin.nautilus.tree.SetAccessorDeclarationTree;
+import com.mindlin.nautilus.tree.ShorthandAssignmentPropertyTree;
+import com.mindlin.nautilus.tree.SpreadElementTree;
+import com.mindlin.nautilus.tree.StringLiteralTree;
+import com.mindlin.nautilus.tree.SuperExpressionTree;
+import com.mindlin.nautilus.tree.TaggedTemplateLiteralTree;
+import com.mindlin.nautilus.tree.TemplateLiteralTree;
+import com.mindlin.nautilus.tree.ThisExpressionTree;
+import com.mindlin.nautilus.tree.Tree;
+import com.mindlin.nautilus.tree.Tree.Kind;
 
 public class PatternReinterpeter implements Function<ExpressionTree, PatternTree> {
 	
@@ -214,7 +212,7 @@ public class PatternReinterpeter implements Function<ExpressionTree, PatternTree
 		}
 		
 		@Override
-		public PatternTree visitNull(NullLiteralTree node, Boolean inArray) {
+		public PatternTree visitNullLiteral(NullLiteralTree node, Boolean inArray) {
 			return this.visitDefault(node, inArray);
 		}
 		

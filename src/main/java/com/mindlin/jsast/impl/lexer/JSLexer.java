@@ -21,13 +21,13 @@ import com.mindlin.jsast.impl.lexer.Token.NumericLiteralToken;
 import com.mindlin.jsast.impl.lexer.Token.RegExpToken;
 import com.mindlin.jsast.impl.lexer.Token.StringLiteralToken;
 import com.mindlin.jsast.impl.lexer.Token.TemplateLiteralToken;
-import com.mindlin.jsast.impl.tree.LineMap;
-import com.mindlin.jsast.impl.tree.LineMap.LineMapBuilder;
-import com.mindlin.jsast.impl.util.Characters;
 import com.mindlin.nautilus.fs.SourceFile;
 import com.mindlin.nautilus.fs.SourcePosition;
 import com.mindlin.nautilus.fs.SourceRange;
 import com.mindlin.nautilus.impl.util.CharacterArrayStream;
+import com.mindlin.nautilus.impl.util.Characters;
+import com.mindlin.nautilus.impl.util.LineMap;
+import com.mindlin.nautilus.impl.util.LineMap.LineMapBuilder;
 import com.mindlin.nautilus.util.CharacterStream;
 
 public class JSLexer implements Supplier<Token>, Closeable {
