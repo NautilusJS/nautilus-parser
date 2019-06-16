@@ -17,6 +17,7 @@ import com.mindlin.nautilus.tree.BinaryExpressionTree;
 import com.mindlin.nautilus.tree.ForEachLoopTree;
 import com.mindlin.nautilus.tree.ForLoopTree;
 import com.mindlin.nautilus.tree.LabeledStatementTree;
+import com.mindlin.nautilus.tree.PostfixUnaryExpressionTree;
 import com.mindlin.nautilus.tree.Tree.Kind;
 import com.mindlin.nautilus.tree.VariableDeclarationTree;
 import com.mindlin.nautilus.tree.VariableDeclarationTree.VariableDeclarationKind;
@@ -54,8 +55,8 @@ public class ForLoopTest {
 		assertIdentifier("i", condition.getLeftOperand());
 		assertLiteral(10, condition.getRightOperand());
 		
-		assertEquals(Kind.POSTFIX_INCREMENT, loop.getUpdate().getKind());
-		assertIdentifier("i", ((UnaryTree)loop.getUpdate()).getExpression());
+		PostfixUnaryExpressionTree update = assertKind(Kind.POSTFIX_INCREMENT, loop.getUpdate());
+		assertIdentifier("i", update.getOperand());
 	}
 	
 	@Test

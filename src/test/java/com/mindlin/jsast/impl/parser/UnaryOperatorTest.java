@@ -8,92 +8,97 @@ import static com.mindlin.jsast.impl.parser.JSParserTest.parseExpressionWith;
 
 import org.junit.Test;
 
-import com.mindlin.jsast.tree.UnaryTree;
+import com.mindlin.nautilus.tree.DeleteExpression;
+import com.mindlin.nautilus.tree.PostfixUnaryExpressionTree;
+import com.mindlin.nautilus.tree.PrefixUnaryExpressionTree;
 import com.mindlin.nautilus.tree.SpreadElementTree;
 import com.mindlin.nautilus.tree.Tree.Kind;
+import com.mindlin.nautilus.tree.TypeOfExpression;
+import com.mindlin.nautilus.tree.VoidExpressionTree;
+import com.mindlin.nautilus.tree.YieldTree;
 
 public class UnaryOperatorTest {
 	@Test
 	public void testPrefixIncrement() {
-		UnaryTree expr = parseExpression("++a", Kind.PREFIX_INCREMENT);
-		assertIdentifier("a", expr.getExpression());
+		PrefixUnaryExpressionTree expr = parseExpression("++a", Kind.PREFIX_INCREMENT);
+		assertIdentifier("a", expr.getOperand());
 	}
 
 	@Test
 	public void testPrefixDecrement() {
-		UnaryTree expr = parseExpression("--a", Kind.PREFIX_DECREMENT);
-		assertIdentifier("a", expr.getExpression());
+		PrefixUnaryExpressionTree expr = parseExpression("--a", Kind.PREFIX_DECREMENT);
+		assertIdentifier("a", expr.getOperand());
 	}
 	
 	@Test
 	public void testPostfixIncrement() {
-		UnaryTree expr = parseExpression("a++", Kind.POSTFIX_INCREMENT);
-		assertIdentifier("a", expr.getExpression());
+		PostfixUnaryExpressionTree expr = parseExpression("a++", Kind.POSTFIX_INCREMENT);
+		assertIdentifier("a", expr.getOperand());
 	}
 	
 	@Test
 	public void testPostfixDecrement() {
-		UnaryTree expr = parseExpression("a--", Kind.POSTFIX_DECREMENT);
-		assertIdentifier("a", expr.getExpression());
+		PostfixUnaryExpressionTree expr = parseExpression("a--", Kind.POSTFIX_DECREMENT);
+		assertIdentifier("a", expr.getOperand());
 	}
 
 	@Test
 	public void testUnaryPlus() {
-		UnaryTree expr = parseExpression("+a", Kind.UNARY_PLUS);
-		assertIdentifier("a", expr.getExpression());
+		PrefixUnaryExpressionTree expr = parseExpression("+a", Kind.UNARY_PLUS);
+		assertIdentifier("a", expr.getOperand());
 	}
 
 	@Test
 	public void testUnaryMinus() {
-		UnaryTree expr = parseExpression("-a", Kind.UNARY_MINUS);
-		assertIdentifier("a", expr.getExpression());
+		PrefixUnaryExpressionTree expr = parseExpression("-a", Kind.UNARY_MINUS);
+		assertIdentifier("a", expr.getOperand());
 	}
 	
 	@Test
 	public void testLogicalNot() {
-		UnaryTree expr = parseExpression("!a", Kind.LOGICAL_NOT);
-		assertIdentifier("a", expr.getExpression());
+		PrefixUnaryExpressionTree expr = parseExpression("!a", Kind.LOGICAL_NOT);
+		assertIdentifier("a", expr.getOperand());
 	}
 	
 	@Test
 	public void testBitwiseNot() {
-		UnaryTree expr = parseExpression("~a", Kind.BITWISE_NOT);
-		assertIdentifier("a", expr.getExpression());
+		PrefixUnaryExpressionTree expr = parseExpression("~a", Kind.BITWISE_NOT);
+		assertIdentifier("a", expr.getOperand());
 	}
 	
 	@Test
 	public void testYield() {
-		UnaryTree expr = parseExpressionWith("yield a", true, true, false, Kind.YIELD);
+		YieldTree expr = parseExpressionWith("yield a", true, true, false, Kind.YIELD);
 		assertIdentifier("a", expr.getExpression());
 	}
 	
 	@Test
 	public void testYieldToGenerator() {
-		UnaryTree expr = parseExpressionWith("yield* a", true, true, false, Kind.YIELD_GENERATOR);
+		YieldTree expr = parseExpressionWith("yield* a", true, true, false, Kind.YIELD_GENERATOR);
 		assertIdentifier("a", expr.getExpression());
 	}
 
 	@Test
 	public void testTypeof() {
-		UnaryTree expr = parseExpression("typeof a", Kind.TYPEOF);
+		TypeOfExpression expr = parseExpression("typeof a", Kind.TYPEOF);
 		assertIdentifier("a", expr.getExpression());
 	}
 	
 	@Test
 	public void testTypeofLiteral() {
-		UnaryTree expr = parseExpression("typeof 'foo'", Kind.TYPEOF);
+		TypeOfExpression expr = parseExpression("typeof 'foo'", Kind.TYPEOF);
 		assertLiteral("foo", expr.getExpression());
 	}
 
 	@Test
 	public void testDelete() {
-		UnaryTree expr = parseExpression("delete a", Kind.DELETE);
+		DeleteExpression expr = parseExpression("delete a", Kind.DELETE);
 		assertIdentifier("a", expr.getExpression());
 	}
 	
 	@Test
 	public void testVoid() {
-		UnaryTree expr = parseExpression("void a", Kind.VOID);
+		VoidExpressionTree expr = parseExpression("void a", Kind.VOID);
 		assertIdentifier("a", expr.getExpression());
 	}
 	
