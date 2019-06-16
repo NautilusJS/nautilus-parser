@@ -10,12 +10,12 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.mindlin.jsast.tree.BinaryExpressionTree;
-import com.mindlin.jsast.tree.ExpressionTree;
-import com.mindlin.jsast.tree.TaggedTemplateLiteralTree;
-import com.mindlin.jsast.tree.TemplateElementTree;
-import com.mindlin.jsast.tree.TemplateLiteralTree;
-import com.mindlin.jsast.tree.Tree.Kind;
+import com.mindlin.nautilus.tree.BinaryExpressionTree;
+import com.mindlin.nautilus.tree.ExpressionTree;
+import com.mindlin.nautilus.tree.TaggedTemplateLiteralTree;
+import com.mindlin.nautilus.tree.TemplateElementTree;
+import com.mindlin.nautilus.tree.TemplateLiteralTree;
+import com.mindlin.nautilus.tree.Tree.Kind;
 
 public class TemplateLiteralTest {
 	

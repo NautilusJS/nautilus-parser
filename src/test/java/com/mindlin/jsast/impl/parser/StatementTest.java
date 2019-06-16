@@ -17,13 +17,13 @@ import org.junit.Test;
 
 import com.mindlin.jsast.impl.lexer.JSLexer;
 import com.mindlin.jsast.impl.parser.JSParser.Context;
-import com.mindlin.jsast.tree.BreakTree;
-import com.mindlin.jsast.tree.ContinueTree;
-import com.mindlin.jsast.tree.LabeledStatementTree;
-import com.mindlin.jsast.tree.SwitchCaseTree;
-import com.mindlin.jsast.tree.SwitchTree;
-import com.mindlin.jsast.tree.Tree.Kind;
-import com.mindlin.jsast.tree.WithTree;
+import com.mindlin.nautilus.tree.BreakTree;
+import com.mindlin.nautilus.tree.ContinueTree;
+import com.mindlin.nautilus.tree.LabeledStatementTree;
+import com.mindlin.nautilus.tree.SwitchCaseTree;
+import com.mindlin.nautilus.tree.SwitchTree;
+import com.mindlin.nautilus.tree.Tree.Kind;
+import com.mindlin.nautilus.tree.WithTree;
 
 public class StatementTest {
 	
