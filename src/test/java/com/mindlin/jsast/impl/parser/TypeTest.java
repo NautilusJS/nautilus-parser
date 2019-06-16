@@ -45,15 +45,15 @@ public class TypeTest {
 		}
 	}
 	
-	static IdentifierTypeTree assertIdentifierType(String name, int numGenerics, TypeTree type) {
-		assertEquals(Kind.IDENTIFIER_TYPE, type.getKind());
-		assertIdentifier(name, ((IdentifierTypeTree)type).getName());
+	static TypeReferenceTree assertIdentifierType(String name, int numGenerics, TypeTree type) {
+		TypeReferenceTree typeRef = assertKind(Kind.TYPE_REFERENCE, type);
+		assertIdentifier(name, typeRef.getName());
 		if (numGenerics == 0)
-			assertNull(((IdentifierTypeTree)type).getGenerics());
+			assertNull(typeRef.getTypeArguments());//TODO: null or empty?
 		else
-			assertEquals(numGenerics, ((IdentifierTypeTree)type).getGenerics().size());
+			assertEquals(numGenerics, typeRef.getTypeArguments().size());
 		
-		return (IdentifierTypeTree) type;
+		return (TypeReferenceTree) type;
 	}
 	
 	@Test
@@ -87,23 +87,23 @@ public class TypeTest {
 	
 	@Test
 	public void testIdentifierType() {
-		IdentifierTypeTree type = parseType("Foo", Kind.IDENTIFIER_TYPE);
+		TypeReferenceTree type = parseType("Foo", Kind.TYPE_REFERENCE);
 		assertIdentifierType("Foo", 0, type);
 	}
 	
 	@Test
 	public void testIdentifierTypeWithGeneric() {
-		IdentifierTypeTree type = parseType("Foo<T>", Kind.IDENTIFIER_TYPE);
+		TypeReferenceTree type = parseType("Foo<T>", Kind.TYPE_REFERENCE);
 		assertIdentifierType("Foo", 1, type);
-		assertIdentifierType("T", 0, type.getGenerics().get(0));
+		assertIdentifierType("T", 0, type.getTypeArguments().get(0));
 	}
 	
 	@Test
 	public void testIdentifierTypeWithGenerics() {
-		IdentifierTypeTree type = parseType("Map<K,V>", Kind.IDENTIFIER_TYPE);
+		TypeReferenceTree type = parseType("Map<K,V>", Kind.TYPE_REFERENCE);
 		assertIdentifierType("Map", 2, type);
-		assertIdentifierType("K", 0, type.getGenerics().get(0));
-		assertIdentifierType("V", 0, type.getGenerics().get(1));
+		assertIdentifierType("K", 0, type.getTypeArguments().get(0));
+		assertIdentifierType("V", 0, type.getTypeArguments().get(1));
 	}
 	
 	@Test
@@ -114,8 +114,8 @@ public class TypeTest {
 		assertIdentifierType("A", 0, base.getBaseType());
 		assertIdentifierType("B", 0, base.getName());
 		
-		IdentifierTypeTree name = assertIdentifierType("C", 1, type.getName());
-		assertIdentifierType("T", 0, name.getGenerics().get(0));
+		TypeReferenceTree name = assertIdentifierType("C", 1, type.getName());
+		assertIdentifierType("T", 0, name.getTypeArguments().get(0));
 	}
 	
 	@Test
@@ -156,13 +156,11 @@ public class TypeTest {
 		CompositeTypeTree type = parseType("A<T> & B<R>", Kind.TYPE_INTERSECTION);
 		assertEquals(2, type.getConstituents().size());
 		
-		TypeTree leftType = type.getConstituents().get(0);
-		assertIdentifierType("A", 1, leftType);
-		assertIdentifierType("T", 0, ((IdentifierTypeTree) leftType).getGenerics().get(0));
+		TypeReferenceTree leftType = assertIdentifierType("A", 1, type.getConstituents().get(0));
+		assertIdentifierType("T", 0, leftType.getTypeArguments().get(0));
 		
-		TypeTree rightType = type.getConstituents().get(1);
-		assertIdentifierType("B", 1, rightType);
-		assertIdentifierType("R", 0, ((IdentifierTypeTree)rightType).getGenerics().get(0));
+		TypeReferenceTree rightType = assertIdentifierType("B", 1, type.getConstituents().get(1));
+		assertIdentifierType("R", 0, rightType.getTypeArguments().get(0));
 	}
 	
 	@Test
@@ -270,6 +268,7 @@ public class TypeTest {
 	@Test
 	public void testTypeQuery() {
 		TypeTree type = parseType("typeof X", Kind.TYPE_QUERY);
+		//TODO: we can implement this now
 		fail("Not implemented");
 	}
 	
