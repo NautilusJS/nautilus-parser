@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -183,6 +184,10 @@ public class JSParserTest {
 		return parseExpression(expr, kind, context, true);
 	}
 	
+	static void assertLexerEOF(JSLexer lexer) {
+		assertTrue(lexer.isEOF(), () -> String.format("Not all of type expression was consumed. Read until %s", lexer.getPosition()));
+	}
+	
 	@SuppressWarnings("unchecked")
 	static <T extends ExpressionTree> T parseExpression(String expr, Kind kind, Context context, boolean complete) {
 		JSLexer lexer = createLexer(expr);
@@ -196,7 +201,7 @@ public class JSParserTest {
 		}
 		
 		if (complete)
-			assertTrue(lexer.isEOF(), () -> "Not all of expression was consumed. Read until " + lexer.getPosition());
+			assertLexerEOF(lexer);
 		
 		if (kind != null)
 			assertEquals(kind, result.getKind());
@@ -225,7 +230,7 @@ public class JSParserTest {
 		}
 		
 		if (complete)
-			assertTrue(lexer.isEOF(), () -> "Not all of type expression was consumed. Read until " + lexer.getPosition());
+			assertLexerEOF(lexer);
 		
 		if (expectedKind != null)
 			assertEquals(expectedKind, result.getKind());
@@ -242,6 +247,11 @@ public class JSParserTest {
 	}
 	
 	static JSLexer createLexer(String code) {
-		return new JSLexer(new NominalSourceFile(getTestName(), code));
+		try {
+			return new JSLexer(new NominalSourceFile(getTestName(), code));
+		} catch (IOException e) {
+			fail(e);
+			return null;
+		}
 	}
 }
