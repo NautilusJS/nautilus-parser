@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.mindlin.nautilus.tree.BinaryExpressionTree;
 import com.mindlin.nautilus.tree.ParenthesizedTree;
+import com.mindlin.nautilus.tree.PropertyAccessTree;
 import com.mindlin.nautilus.tree.Tree;
 import com.mindlin.nautilus.tree.Tree.Kind;
 
@@ -61,20 +62,20 @@ public class BinaryExpressionTest {
 	
 	@Test
 	public void testMemberSelect() {
-		BinaryExpressionTree expr = parseExpression("a.b", Kind.MEMBER_SELECT);
-		assertIdentifier("a", expr.getLeftOperand());
-		assertIdentifier("b", expr.getRightOperand());
+		PropertyAccessTree expr = parseExpression("a.b", Kind.PROPERTY_ACCESS);
+		assertIdentifier("a", expr.getExpression());
+		assertIdentifier("b", expr.getName());
 	}
 	
 	@Test
 	public void testChainedMemberSelect() {
-		BinaryExpressionTree expr = parseExpression("a.b.c", Kind.MEMBER_SELECT);
+		PropertyAccessTree expr = parseExpression("a.b.c", Kind.PROPERTY_ACCESS);
 		
-		BinaryExpressionTree inner = assertKind(Kind.MEMBER_SELECT, expr.getLeftOperand());
-		assertIdentifier("a", inner.getLeftOperand());
-		assertIdentifier("b", inner.getRightOperand());
+		PropertyAccessTree inner = assertKind(Kind.PROPERTY_ACCESS, expr.getExpression());
+		assertIdentifier("a", inner.getExpression());
+		assertIdentifier("b", inner.getName());
 		
-		assertIdentifier("c", expr.getRightOperand());
+		assertIdentifier("c", expr.getName());
 	}
 	
 	@Test
