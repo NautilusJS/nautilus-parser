@@ -31,6 +31,7 @@ import com.mindlin.nautilus.tree.type.SpecialTypeTree.SpecialType;
 import com.mindlin.nautilus.tree.type.TupleTypeTree;
 import com.mindlin.nautilus.tree.type.TypeElementTree;
 import com.mindlin.nautilus.tree.type.TypeParameterDeclarationTree;
+import com.mindlin.nautilus.tree.type.TypeQueryTree;
 import com.mindlin.nautilus.tree.type.TypeReferenceTree;
 import com.mindlin.nautilus.tree.type.TypeTree;
 
@@ -267,9 +268,9 @@ public class TypeTest {
 	
 	@Test
 	public void testTypeQuery() {
-		TypeTree type = parseType("typeof X", Kind.TYPE_QUERY);
-		//TODO: we can implement this now
-		fail("Not implemented");
+		TypeQueryTree type = parseType("typeof X", Kind.TYPE_QUERY);
+		// Note: X is an identifier, not a type reference here
+		assertIdentifier("X", type.getExpression());
 	}
 	
 	@Test
