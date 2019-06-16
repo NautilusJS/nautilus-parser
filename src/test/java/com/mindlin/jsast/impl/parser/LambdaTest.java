@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.mindlin.nautilus.tree.ArrowFunctionTree;
 import com.mindlin.nautilus.tree.Modifiers;
 import com.mindlin.nautilus.tree.ParameterTree;
 import com.mindlin.nautilus.tree.ReturnTree;
@@ -39,7 +40,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testSingleParamNoParen() {
-		FunctionExpressionTree lambda = parseExpression("x=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("x=>x", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(1,params.size());
@@ -56,7 +57,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testSingleParanWithParen() {
-		FunctionExpressionTree lambda = parseExpression("(x)=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("(x)=>x", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(1,params.size());
@@ -71,7 +72,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testSingleRestParam() {
-		FunctionExpressionTree lambda = parseExpression("(...x)=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("(...x)=>x", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(1,params.size());
@@ -86,7 +87,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testMultipleParams() {
-		FunctionExpressionTree lambda = parseExpression("(x,y)=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("(x,y)=>x", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(2, params.size());
@@ -108,7 +109,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testBracketedBody() {
-		FunctionExpressionTree lambda = parseExpression("()=>{}", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("()=>{}", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(0, params.size());
@@ -116,7 +117,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testMultiParamsWithRest() {
-		FunctionExpressionTree lambda = parseExpression("(x,...y)=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("(x,...y)=>x", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(2, params.size());
@@ -138,7 +139,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testSingleParamWithType() {
-		FunctionExpressionTree lambda = parseExpression("(x:string)=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("(x:string)=>x", Kind.ARROW_FUNCTION);
 
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(1, params.size());
@@ -153,7 +154,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testMultipleParamsWithType() {
-		FunctionExpressionTree lambda = parseExpression("(x:string, y:number)=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("(x:string, y:number)=>x", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(2, params.size());
@@ -175,7 +176,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testSingleParamDefaultValue() {
-		FunctionExpressionTree lambda = parseExpression("(x = 5)=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("(x = 5)=>x", Kind.ARROW_FUNCTION);
 
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(1, params.size());
@@ -190,7 +191,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testSingleParamOptionalTyped() {
-		FunctionExpressionTree lambda = parseExpression("(x?:string)=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("(x?:string)=>x", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(1, params.size());
@@ -205,7 +206,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testSingleParamTypedDefault() {
-		FunctionExpressionTree lambda = parseExpression("(x:number=5)=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("(x:number=5)=>x", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(1, params.size());
@@ -220,7 +221,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testSingleParamOptional() {
-		FunctionExpressionTree lambda = parseExpression("(x?)=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("(x?)=>x", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(1, params.size());
@@ -235,7 +236,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testMultipleParamsOneOptional() {
-		FunctionExpressionTree lambda = parseExpression("(x, y?)=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("(x, y?)=>x", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(2, params.size());
@@ -257,7 +258,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testMultipleParamsMultipleOptional() {
-		FunctionExpressionTree lambda = parseExpression("(x?, y?)=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("(x?, y?)=>x", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(2, params.size());
@@ -279,7 +280,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testMultiParamsDefaultValue() {
-		FunctionExpressionTree lambda = parseExpression("(x = 5, y = 6)=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("(x = 5, y = 6)=>x", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(2, params.size());
@@ -301,7 +302,7 @@ public class LambdaTest {
 	
 	@Test
 	public void testNested() {
-		FunctionExpressionTree lambda = parseExpression("x=>y=>x", Kind.FUNCTION_EXPRESSION);
+		ArrowFunctionTree lambda = parseExpression("x=>y=>x", Kind.ARROW_FUNCTION);
 		
 		List<? extends ParameterTree> params = lambda.getParameters();
 		assertEquals(1, params.size());
@@ -316,8 +317,7 @@ public class LambdaTest {
 		
 		//Check returned function
 		ReturnTree result = assertKind(Kind.RETURN, lambda.getBody());
-		FunctionExpressionTree lambda1 = assertKind(Kind.FUNCTION_EXPRESSION, result.getExpression());
-		assertTrue(lambda1.isArrow());
+		ArrowFunctionTree lambda1 = assertKind(Kind.ARROW_FUNCTION, result.getExpression());
 		List<? extends ParameterTree> params1 = lambda1.getParameters();
 		assertEquals(1, params1.size());
 		
