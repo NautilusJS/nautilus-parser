@@ -252,18 +252,18 @@ public class JSParser {
 	}
 	
 	//Parser properties
-	protected JSDialect dialect;
+	protected JSFeatureSet features;
 	
 	public JSParser() {
-		this(JSDialect.JSStandardDialect.EVERYTHING);
+		this(JSFeatureSet.latest());
 	}
 	
-	public JSParser(JSDialect dialect) {
-		this.dialect = dialect;
+	public JSParser(JSFeatureSet features) {
+		this.features = features;
 	}
 	
 	protected boolean supports(JSFeature feature) {
-		return false;//TODO
+		return this.features.supports(feature);
 	}
 	
 	protected void require(JSFeature feature, SourceRange range) {
