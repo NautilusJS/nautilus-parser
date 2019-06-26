@@ -268,7 +268,7 @@ public class JSParser {
 	
 	protected void require(JSFeature feature, SourceRange range) {
 		if (!this.supports(feature))
-			throw new JSUnsupportedException(feature.name(), range);//TODO
+			throw new JSUnsupportedFeatureException(feature, range);//TODO
 	}
 	
 	@Deprecated
