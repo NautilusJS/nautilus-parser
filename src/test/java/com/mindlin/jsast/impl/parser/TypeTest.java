@@ -200,7 +200,7 @@ public class TypeTest {
 		ArrayTypeTree limitBase = assertKind(Kind.ARRAY_TYPE, type.getLimitType());
 		assertSpecialType(SpecialType.ANY, limitBase.getBaseType());
 		
-		MemberTypeTree concequent = assertKind(Kind.MEMBER_TYPE, type.getConecquent());
+		MemberTypeTree concequent = assertKind(Kind.MEMBER_TYPE, type.getConcequent());
 		assertIdentifierType("T", 0, concequent.getBaseType());
 		assertSpecialType(SpecialType.NUMBER, concequent.getName());
 		
@@ -219,7 +219,7 @@ public class TypeTest {
 		assertSpecialType(SpecialType.ANY, type.getAlternate());
 		
 		
-		ConditionalTypeTree inner = assertKind(Kind.CONDITIONAL_TYPE, type.getConecquent());
+		ConditionalTypeTree inner = assertKind(Kind.CONDITIONAL_TYPE, type.getConcequent());
 		
 		MemberTypeTree innerCheck = assertKind(Kind.MEMBER_TYPE, inner.getCheckType());
 		assertIdentifierType("T", 0, innerCheck.getBaseType());
@@ -228,7 +228,7 @@ public class TypeTest {
 		ArrayTypeTree limit1Base = assertKind(Kind.ARRAY_TYPE, type.getLimitType());
 		assertSpecialType(SpecialType.ANY, limit1Base.getBaseType());
 		
-		MemberTypeTree innerCon = assertKind(Kind.MEMBER_TYPE, inner.getConecquent());
+		MemberTypeTree innerCon = assertKind(Kind.MEMBER_TYPE, inner.getConcequent());
 		assertSpecialType(SpecialType.NUMBER, innerCon.getName());
 		MemberTypeTree innerCon1 = assertKind(Kind.MEMBER_TYPE, innerCon.getBaseType());
 		assertIdentifierType("T", 0, innerCon1.getBaseType());
@@ -254,7 +254,7 @@ public class TypeTest {
 		InferTypeTree limit1 = assertKind(Kind.INFER_TYPE, limit.getBaseType());
 		assertIdentifier("E", limit1.getParameter().getName());
 		
-		assertIdentifierType("E", 0, type.getConecquent());
+		assertIdentifierType("E", 0, type.getConcequent());
 		
 		assertSpecialType(SpecialType.ANY, type.getAlternate());
 	}
