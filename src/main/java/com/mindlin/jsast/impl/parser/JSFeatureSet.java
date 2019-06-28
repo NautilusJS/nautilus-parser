@@ -18,7 +18,7 @@ public class JSFeatureSet implements Serializable {
 	public JSFeatureSet(@NonNull Set<JSFeature> features) {
 		this.features = features;
 	}
-
+	
 	public boolean supports(JSFeature feature) {
 		return this.features.contains(feature);
 	}

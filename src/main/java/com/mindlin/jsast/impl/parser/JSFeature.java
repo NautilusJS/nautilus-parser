@@ -2,21 +2,21 @@ package com.mindlin.jsast.impl.parser;
 
 public enum JSFeature {
 	// ES5
-	GETTERS,
-	SETTERS,
-	TRAILING_COMMA,
-	STRICT_MODE,
+	GETTERS("js.getter"),
+	SETTERS("js.setter"),
+	TRAILING_COMMA("js.trailingComma"),
+	STRICT_MODE("js.strict"),
 	
 	// ES6
-	BINARY_LITERALS,
-	LAMBDA_FUNCTIONS,
+	BINARY_LITERALS("js.literal.binary"),
+	LAMBDA_FUNCTIONS("js.function.lambda"),
 	CLASSES("js.class"),
 	CLASS_CONSTRUCTORS("js.class.constructor"),
 	CLASS_EXTENDS("js.class.inheritance"),
-	CLASS_STATIC,
-	CLASS_SUPER,
-	CLASS_THIS,
-	DESTRUCTURING,
+	CLASS_STATIC("js.class.static"),
+	CLASS_SUPER("js.class.super"),
+	CLASS_THIS("js.class.this"),
+	DESTRUCTURING("js.destructuring"),
 	PARAMETER_DESTRUCTURING("js.parameter.destructuring"),
 	FOR_OF_LOOP,
 	GENERATORS,
