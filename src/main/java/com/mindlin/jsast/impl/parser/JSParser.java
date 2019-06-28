@@ -198,7 +198,7 @@ import com.mindlin.nautilus.fs.SourcePosition;
 import com.mindlin.nautilus.fs.SourceRange;
 import com.mindlin.nautilus.util.Pair;
 
-public class JSParser {
+public class JSParser extends AbstractJSParser {
 	
 	/**
 	 * A convenience method, to assert a token's value
@@ -254,29 +254,18 @@ public class JSParser {
 		}
 	}
 	
-	//Parser properties
-	protected JSFeatureSet features;
-	
 	public JSParser() {
 		this(JSFeatureSet.latest());
 	}
 	
 	public JSParser(JSFeatureSet features) {
-		this.features = features;
-	}
-	
-	protected boolean supports(JSFeature feature) {
-		return this.features.supports(feature);
-	}
-	
-	protected void require(JSFeature feature, SourceRange range) {
-		if (!this.supports(feature))
-			throw new JSUnsupportedFeatureException(feature, range);//TODO
+		super(features);
 	}
 	
 	@Deprecated
 	protected boolean supports(String feature) {
-		return dialect.supports(feature);
+//		return dialect.supports(feature);
+		return true;//TODO
 	}
 	
 	public CompilationUnitTree apply(String unitName, String src) {
