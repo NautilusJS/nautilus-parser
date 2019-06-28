@@ -815,7 +815,7 @@ public class JSParser extends AbstractJSParser {
 		return params;
 	}
 	
-	protected ExpressionTree parseArgument(JSLexer src, Context context) {
+	protected ArrayLiteralElement parseArgument(JSLexer src, Context context) {
 		if (src.peek().matches(JSSyntaxKind.SPREAD))
 			return this.parseSpread(src, context);
 		else
@@ -1209,7 +1209,7 @@ public class JSParser extends AbstractJSParser {
 		Token at = src.expect(JSSyntaxKind.AT_SYMBOL);
 		require(JSFeature.DECORATORS, at.getRange());
 		//TODO: finish
-		throw new JSUnsupportedException("Decorators", src.getPosition());
+		throw new NotFinishedException("Decorators", src.getPosition());
 	}
 	
 	/**
