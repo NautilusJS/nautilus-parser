@@ -405,13 +405,18 @@ public class JSParser extends AbstractJSParser {
 			case END_OF_FILE:
 				return null;
 			case SEMICOLON:
-				return new EmptyStatementTreeImpl(src.skip(lookahead));
+				return this.parseEmptyStatement(src, context);
 			case COMMENT:
 				break;
 			default:
 				break;
 		}
 		return this.parseLabeledOrExpressionStement(src, context);
+	}
+	
+	protected StatementTree parseEmptyStatement(JSLexer src, Context context) {
+		Token token = src.expect(JSSyntaxKind.SEMICOLON);
+		return new EmptyStatementTreeImpl(token.getRange());
 	}
 	
 	protected StatementTree parseLabeledOrExpressionStement(JSLexer src, Context context) {
