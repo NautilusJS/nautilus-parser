@@ -1990,7 +1990,7 @@ public class JSParser extends AbstractJSParser {
 	 * 		Identifier TypeArguments?
 	 * </pre>
 	 */
-	protected IdentifierTypeTree parseTypeReference(JSLexer src, Context context) {
+	protected TypeReferenceTree parseTypeReference(JSLexer src, Context context) {
 		//TODO: actually should be qualified name
 		IdentifierTree identifier = this.parseIdentifier(src, context);
 		if (src.peek().matches(JSSyntaxKind.PERIOD))
@@ -1998,7 +1998,7 @@ public class JSParser extends AbstractJSParser {
 		
 		List<TypeTree> typeArgs = this.parseTypeArgumentsMaybe(src, context);
 		
-		return new IdentifierTypeTreeImpl(identifier.getStart(), src.getPosition(), identifier, typeArgs);
+		return new TypeReferenceTreeImpl(identifier.getStart(), src.getPosition(), identifier, typeArgs);
 	}
 	
 	protected TypeTree parseTypeQuery(JSLexer src, Context context) {
@@ -2012,7 +2012,7 @@ public class JSParser extends AbstractJSParser {
 	
 	protected TypeTree parseThisType(JSLexer src, Context context) {
 		IdentifierTree ident = this.parseIdentifier(src, context);//TODO: does this work because lookahead is a keyword?
-		TypeTree result = new IdentifierTypeTreeImpl(ident.getStart(), ident.getEnd(), ident, Collections.emptyList());
+		TypeTree result = new TypeReferenceTreeImpl(ident.getStart(), ident.getEnd(), ident, Collections.emptyList());
 		//TODO: this type predicate
 		return result;
 	}
