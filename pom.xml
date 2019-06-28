@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<name>NautilusJS Parser</name>
-	<groupId>com.mindlin.jsast</groupId>
+	<groupId>com.mindlin.nautilus</groupId>
 	<artifactId>nautilus-parser</artifactId>
 	<version>0.0.1-alpha</version>
 	<url>github.com/nautilusjs/nautilus-parser</url>
