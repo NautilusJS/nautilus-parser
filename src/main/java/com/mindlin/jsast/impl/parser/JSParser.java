@@ -142,7 +142,6 @@ import com.mindlin.nautilus.tree.ImportDeclarationTree;
 import com.mindlin.nautilus.tree.ImportSpecifierTree;
 import com.mindlin.nautilus.tree.LabeledStatementTree;
 import com.mindlin.nautilus.tree.LiteralTree;
-import com.mindlin.nautilus.tree.LoopTree;
 import com.mindlin.nautilus.tree.MethodDeclarationTree;
 import com.mindlin.nautilus.tree.MethodSignatureTree;
 import com.mindlin.nautilus.tree.Modifiers;
@@ -659,14 +658,14 @@ public class JSParser extends AbstractJSParser {
 					// I can't find any example of an expression that can't be used
 					// as a default value (except ones that won't run at all)
 					
-					return new ParameterTreeImpl(expr.getStart(), expr.getEnd(), Modifiers.NONE, identifier, false, null, assignment.getValue());
+					return new ParameterTreeImpl(expr.getRange(), Modifiers.NONE, identifier, false, null, assignment.getValue());
 				}
 				case SPREAD: {
 					require(JSFeature.REST_PARAMETERS, expr.getRange());
 					//Turn into rest parameter
 					ExpressionTree inner = ((SpreadElementTree) expr).getExpression();
 					PatternTree identifier = this.reinterpretExpressionAsPattern(inner, false);
-					return new ParameterTreeImpl(expr.getStart(), expr.getEnd(), Modifiers.NONE, identifier, true, null, null);
+					return new ParameterTreeImpl(expr.getRange(), Modifiers.NONE, identifier, true, null, null);
 				}
 				case ARRAY_LITERAL:
 				case OBJECT_LITERAL:
@@ -2355,7 +2354,7 @@ public class JSParser extends AbstractJSParser {
 		if (keywordToken.matches(JSSyntaxKind.BREAK))
 			return new AbstractGotoTree.BreakTreeImpl(start, end, label);
 		else if (keywordToken.matches(JSSyntaxKind.CONTINUE))
-			return new AbstractGotoTree.ContinueTreeImpl(start, end, label);
+			return new ContinueTreeImpl(start, end, label);
 		throw new JSUnexpectedTokenException(keywordToken);
 	}
 	
