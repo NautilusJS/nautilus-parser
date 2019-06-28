@@ -174,7 +174,6 @@ import com.mindlin.nautilus.tree.ThisExpressionTree;
 import com.mindlin.nautilus.tree.Tree;
 import com.mindlin.nautilus.tree.Tree.Kind;
 import com.mindlin.nautilus.tree.TryTree;
-import com.mindlin.nautilus.tree.UnaryTree;
 import com.mindlin.nautilus.tree.VariableDeclarationOrPatternTree;
 import com.mindlin.nautilus.tree.VariableDeclarationTree;
 import com.mindlin.nautilus.tree.VariableDeclarationTree.VariableDeclarationKind;
@@ -183,19 +182,19 @@ import com.mindlin.nautilus.tree.WhileLoopTree;
 import com.mindlin.nautilus.tree.WithTree;
 import com.mindlin.nautilus.tree.type.EnumDeclarationTree;
 import com.mindlin.nautilus.tree.type.EnumMemberTree;
-import com.mindlin.nautilus.tree.type.IdentifierTypeTree;
 import com.mindlin.nautilus.tree.type.IndexSignatureTree;
 import com.mindlin.nautilus.tree.type.InterfaceDeclarationTree;
-import com.mindlin.nautilus.tree.type.LiteralTypeTree;
 import com.mindlin.nautilus.tree.type.ObjectTypeTree;
 import com.mindlin.nautilus.tree.type.SpecialTypeTree.SpecialType;
 import com.mindlin.nautilus.tree.type.TypeAliasTree;
 import com.mindlin.nautilus.tree.type.TypeElementTree;
 import com.mindlin.nautilus.tree.type.TypeParameterDeclarationTree;
+import com.mindlin.nautilus.tree.type.TypeReferenceTree;
 import com.mindlin.nautilus.tree.type.TypeTree;
 import com.mindlin.nautilus.fs.SourceFile;
 import com.mindlin.nautilus.fs.SourcePosition;
 import com.mindlin.nautilus.fs.SourceRange;
+import com.mindlin.nautilus.impl.util.LineMap;
 import com.mindlin.nautilus.util.Pair;
 
 public class JSParser extends AbstractJSParser {
@@ -434,7 +433,7 @@ public class JSParser extends AbstractJSParser {
 	protected StatementTree finishExpressionStatement(ExpressionTree expression, JSLexer src, Context context) {
 		SourcePosition end = expectEOL(src, context).getEnd();
 		if (context.isDirectiveTarget() && expression.getKind() == Kind.STRING_LITERAL) {
-			Object value = ((LiteralTree<?>) expression).getValue();
+			Object value = ((StringLiteralTree) expression).getValue();
 			
 			if ("use strict".equals(value)) {
 				context.enterStrict();
@@ -647,7 +646,7 @@ public class JSParser extends AbstractJSParser {
 		try {
 			switch (expr.getKind()) {
 				case IDENTIFIER:
-					return new ParameterTreeImpl((IdentifierTree)expr);
+					return new ParameterTreeImpl(expr.getRange(), Collections.emptyList(), (IdentifierTree) expr, Modifiers.NONE, false, null, null);
 				case ASSIGNMENT: {
 					require(JSFeature.PARAMETER_INITIALIZERS, expr.getRange());
 					//Turn into default parameter
@@ -2730,7 +2729,7 @@ public class JSParser extends AbstractJSParser {
 		context.push();
 		final ExpressionTree right = this.parseExponentiation(src, context.coverGrammarIsolated());
 		context.pop();
-		return new BinaryTreeImpl(expr.getStart(), right.getEnd(), Tree.Kind.EXPONENTIATION, expr, right);
+		return new BinaryExpressionTreeImpl(expr.getStart(), right.getEnd(), Tree.Kind.EXPONENTIATION, expr, right);
 	}
 	
 	/**
@@ -3022,7 +3021,7 @@ public class JSParser extends AbstractJSParser {
 			case ARRAY_PATTERN:
 			case IDENTIFIER:
 			case ARRAY_ACCESS:
-			case MEMBER_SELECT:
+			case PROPERTY_ACCESS:
 				return (PatternTree) expr;
 			default:
 				break;
@@ -4087,7 +4086,7 @@ public class JSParser extends AbstractJSParser {
 	 * Handles {@code yield} and {@code yield*} expressions.
 	 *
 	 */
-	protected UnaryTree parseYield(JSLexer src, Context context) {
+	protected YieldTree parseYield(JSLexer src, Context context) {
 		Token yieldKeywordToken = src.expect(JSSyntaxKind.YIELD);
 		
 		require(JSFeature.YIELD, yieldKeywordToken.getRange());
