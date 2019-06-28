@@ -292,7 +292,8 @@ public class JSParser extends AbstractJSParser {
 		SourceFile source = null;
 		LineMap lines = src.getLines();
 		
-		return new CompilationUnitTreeImpl(start, src.getPosition(), source, lines, elements, false);
+		SourceRange range = new SourceRange(start, src.getPosition());
+		return new CompilationUnitTreeImpl(range, source, lines, elements, false);
 	}
 	
 	protected StatementTree parseStatement(JSLexer src, Context context) {
