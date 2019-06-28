@@ -33,7 +33,6 @@ import com.mindlin.nautilus.tree.impl.ClassExpressionTreeImpl;
 import com.mindlin.nautilus.tree.impl.FunctionDeclarationTreeImpl;
 import com.mindlin.nautilus.tree.impl.FunctionExpressionTreeImpl;
 import com.mindlin.nautilus.tree.impl.MethodDeclarationTreeImpl;
-import com.mindlin.jsast.impl.tree.AbstractGotoTree;
 import com.mindlin.nautilus.tree.impl.CallSignatureTreeImpl;
 import com.mindlin.nautilus.tree.impl.ConstructSignatureTreeImpl;
 import com.mindlin.nautilus.tree.impl.ConstructorTypeTreeImpl;
@@ -45,10 +44,8 @@ import com.mindlin.nautilus.tree.impl.ArrayLiteralTreeImpl;
 import com.mindlin.nautilus.tree.impl.ArrayPatternTreeImpl;
 import com.mindlin.nautilus.tree.impl.ArrayTypeTreeImpl;
 import com.mindlin.nautilus.tree.impl.AssignmentPropertyTreeImpl;
+import com.mindlin.nautilus.tree.impl.AwaitExpressionTreeImpl;
 import com.mindlin.nautilus.tree.impl.BinaryExpressionTreeImpl;
-import com.mindlin.jsast.impl.tree.AssignmentPropertyTreeImpl.ShorthandAssignmentPropertyTreeImpl;
-import com.mindlin.jsast.impl.tree.AssignmentTreeImpl;
-import com.mindlin.jsast.impl.tree.BinaryTreeImpl;
 import com.mindlin.nautilus.tree.impl.BlockTreeImpl;
 import com.mindlin.nautilus.tree.impl.BooleanLiteralTreeImpl;
 import com.mindlin.nautilus.tree.impl.BreakTreeImpl;
@@ -75,7 +72,6 @@ import com.mindlin.nautilus.tree.impl.IndexSignatureTreeImpl;
 import com.mindlin.nautilus.tree.impl.InterfaceDeclarationTreeImpl;
 import com.mindlin.nautilus.tree.impl.LabeledStatementTreeImpl;
 import com.mindlin.nautilus.tree.impl.MappedTypeTreeImpl;
-import com.mindlin.nautilus.tree.impl.MemberExpressionTreeImpl;
 import com.mindlin.nautilus.tree.impl.MemberTypeTreeImpl;
 import com.mindlin.nautilus.tree.impl.NewTreeImpl;
 import com.mindlin.nautilus.tree.impl.NullLiteralTreeImpl;
@@ -105,8 +101,6 @@ import com.mindlin.nautilus.tree.impl.TupleTypeTreeImpl;
 import com.mindlin.nautilus.tree.impl.TypeAliasTreeImpl;
 import com.mindlin.nautilus.tree.impl.TypeParameterDeclarationTreeImpl;
 import com.mindlin.nautilus.tree.impl.TypeReferenceTreeImpl;
-import com.mindlin.nautilus.tree.impl.UnaryTreeImpl;
-import com.mindlin.nautilus.tree.impl.UnaryTreeImpl.AwaitTreeImpl;
 import com.mindlin.nautilus.tree.impl.UnaryTypeTreeImpl;
 import com.mindlin.nautilus.tree.impl.VariableDeclarationTreeImpl;
 import com.mindlin.nautilus.tree.impl.VariableDeclaratorTreeImpl;
@@ -592,7 +586,7 @@ public class JSParser extends AbstractJSParser {
 			case NOT_EQUAL:
 				return Tree.Kind.NOT_EQUAL;
 			case PERIOD:
-				return Tree.Kind.MEMBER_SELECT;
+				return Tree.Kind.PROPERTY_ACCESS;
 			case PLUS:
 				return Tree.Kind.ADDITION;
 			case QUESTION_MARK:
@@ -820,8 +814,8 @@ public class JSParser extends AbstractJSParser {
 			return this.parseAssignment(src, context.coverGrammarIsolated());
 	}
 	
-	protected List<ExpressionTree> parseArguments(JSLexer src, Context context) { 
-		List<ExpressionTree> result = this.parseDelimitedList(this::parseArgument, this::parseCommaSeparator, TokenPredicate.match(JSSyntaxKind.RIGHT_PARENTHESIS), src, context);
+	protected List<ArrayLiteralElement> parseArguments(JSLexer src, Context context) { 
+		List<ArrayLiteralElement> result = this.parseDelimitedList(this::parseArgument, this::parseCommaSeparator, TokenPredicate.match(JSSyntaxKind.RIGHT_PARENTHESIS), src, context);
 		
 		src.expect(JSSyntaxKind.RIGHT_PARENTHESIS);
 		
@@ -925,13 +919,13 @@ public class JSParser extends AbstractJSParser {
 		
 		expectEOL(src, context);
 		
-		return new TypeAliasTreeImpl(start, src.getPosition(), identifier, typeParams, value);
+		return new TypeAliasTreeImpl(start, src.getPosition(), Collections.emptyList(), identifier, typeParams, value);
 	}
 	
 	protected ExpressionTree parseAwait(JSLexer src, Context context) {
 		Token awaitToken = src.expect(JSSyntaxKind.AWAIT);
 		ExpressionTree expr = this.parseUnaryExpression(src, context);
-		return new AwaitTreeImpl(awaitToken.getStart(), src.getPosition(), expr);
+		return new AwaitExpressionTreeImpl(awaitToken.getStart(), src.getPosition(), expr);
 	}
 	
 	protected VariableDeclaratorTree parseVariableDeclarator(JSLexer src, Context context) {
@@ -994,7 +988,7 @@ public class JSParser extends AbstractJSParser {
 		if (!inFor)
 			expectEOL(src, context);
 		
-		return new VariableDeclarationTreeImpl(keywordToken.getStart(), src.getPosition(), style, declarations);
+		return new VariableDeclarationTreeImpl(keywordToken.getStart(), src.getPosition(), Collections.emptyList(), style, declarations);
 	}
 	
 	/**
@@ -2352,7 +2346,7 @@ public class JSParser extends AbstractJSParser {
 		final SourcePosition end = src.getPosition();
 		
 		if (keywordToken.matches(JSSyntaxKind.BREAK))
-			return new AbstractGotoTree.BreakTreeImpl(start, end, label);
+			return new BreakTreeImpl(start, end, label);
 		else if (keywordToken.matches(JSSyntaxKind.CONTINUE))
 			return new ContinueTreeImpl(start, end, label);
 		throw new JSUnexpectedTokenException(keywordToken);
@@ -2563,7 +2557,7 @@ public class JSParser extends AbstractJSParser {
 	 * @param isStrict
 	 * @return
 	 */
-	protected LoopTree parseForStatement(JSLexer src, Context context) {
+	protected StatementTree parseForStatement(JSLexer src, Context context) {
 		Token forKeywordToken = src.expect(JSSyntaxKind.FOR);
 		src.expect(JSSyntaxKind.LEFT_PARENTHESIS);
 		
@@ -3397,7 +3391,7 @@ public class JSParser extends AbstractJSParser {
 		//TODO: finish member expression
 		//TODO: type arguments
 		
-		final List<ExpressionTree> args;
+		final List<ArrayLiteralElement> args;
 		if (src.nextTokenIs(JSSyntaxKind.LEFT_PARENTHESIS))
 			args = this.parseArguments(src, context);
 		else
@@ -3477,7 +3471,7 @@ public class JSParser extends AbstractJSParser {
 		// Make sure that we have the token for the open paren of the function call
 		src.expect(JSSyntaxKind.LEFT_PARENTHESIS);
 		//Read function arguments (also consumes closing token)
-		List<? extends ExpressionTree> arguments = this.parseArguments(src, context);
+		List<? extends ArrayLiteralElement> arguments = this.parseArguments(src, context);
 		
 		return new FunctionCallTreeImpl(functionSelectExpression.getStart(), src.getPosition(), functionSelectExpression, Collections.emptyList(), arguments);
 	}
@@ -4105,9 +4099,13 @@ public class JSParser extends AbstractJSParser {
 	
 	public static class Context {
 		// Context flags (propagate down only)
+		/** {@code in} keyword allowed */
 		static final int FLAG_IN                = (1 <<  0);
+		/** {@code yield} keyword allowed */
 		static final int FLAG_YIELD             = (1 <<  1);
+		/** {@code await} keyword allowed */
 		static final int FLAG_AWAIT             = (1 <<  2);
+		/** {@code return} keyword allowed */
 		static final int FLAG_RETURN            = (1 <<  3);
 		static final int FLAG_BREAK             = (1 <<  4);
 		static final int FLAG_CONTINUE          = (1 <<  5);
