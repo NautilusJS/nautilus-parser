@@ -442,7 +442,6 @@ public class JSParser extends AbstractJSParser {
 	
 	/**
 	 * 
-	 * @param commaToken
 	 * @param src
 	 * @param ctx
 	 */
@@ -526,7 +525,7 @@ public class JSParser extends AbstractJSParser {
 	/**
 	 * Map a JSOperator type to a Tree.Kind type. Does not support operators not binary.
 	 * 
-	 * @param operator
+	 * @param token
 	 * @return
 	 */
 	protected Tree.Kind mapTokenToBinaryKind(Token token) {
@@ -2552,9 +2551,7 @@ public class JSParser extends AbstractJSParser {
 	 * Parses a for loop if you know that it *is* a for loop, but not what kind
 	 * (normal, in, of).
 	 * 
-	 * @param forKeywordToken
 	 * @param src
-	 * @param isStrict
 	 * @return
 	 */
 	protected StatementTree parseForStatement(JSLexer src, Context context) {
@@ -2618,7 +2615,6 @@ public class JSParser extends AbstractJSParser {
 	 * @param forKeywordToken
 	 * @param initializer
 	 * @param src
-	 * @param isStrict
 	 * @return
 	 */
 	protected ForLoopTree parsePartialForLoopTree(Token forKeywordToken, StatementTree initializer, JSLexer src, Context context) {
@@ -2646,7 +2642,6 @@ public class JSParser extends AbstractJSParser {
 	 * @param isForEach
 	 * @param variable
 	 * @param src
-	 * @param isStrict
 	 * @return
 	 */
 	protected ForEachLoopTree parsePartialForEachLoopTree(Token forKeywordToken, VariableDeclarationOrPatternTree pattern, boolean isForEach, JSLexer src, Context context) {
@@ -3754,7 +3749,7 @@ public class JSParser extends AbstractJSParser {
 	}
 	
 	@Deprecated
-	protected LiteralTree<?> parseLiteral(JSLexer src, Context context) {
+	protected LiteralTree parseLiteral(JSLexer src, Context context) {
 		if (src.peek().getKind() == JSSyntaxKind.TEMPLATE_LITERAL)
 			return this.parseTemplateLiteral(src, context);
 		throw new UnsupportedOperationException("Please dispatch");
@@ -3872,12 +3867,12 @@ public class JSParser extends AbstractJSParser {
 			return this.parseAccessorDeclaration(decorators, modifiers, src, context);
 		
 		if (src.nextTokenIs(JSSyntaxKind.ASTERISK))
-			modifiers = modifiers.combine(Modifiers.GENERATOR);
+			modifiers = modifiers.plus(Modifiers.GENERATOR);
 		
 		PropertyName name = this.parsePropertyName(src, context);
 		
 		// Parse optional/definite postfix modifiers 
-		modifiers = modifiers.combine(this.parseModifiers(Modifiers.MASK_POSTFIX, false, src, context));
+		modifiers = modifiers.plus(this.parseModifiers(Modifiers.MASK_POSTFIX, false, src, context));
 		
 		Token lookahead = src.peek();
 		if (modifiers.isGenerator() || TokenPredicate.CALL_SIGNATURE_START.test(lookahead)) {
