@@ -665,7 +665,7 @@ public class JSParser extends AbstractJSParser {
 				case OBJECT_LITERAL:
 					require(JSFeature.PARAMETER_DESTRUCTURING, expr.getRange());
 					//Turn into destructuring parameter
-					return new ParameterTreeImpl(expr.getStart(), expr.getEnd(), this.reinterpretExpressionAsPattern(expr, false));
+					return new ParameterTreeImpl(expr.getRange(), this.reinterpretExpressionAsPattern(expr, false));
 				default:
 					break;
 			}
@@ -846,7 +846,7 @@ public class JSParser extends AbstractJSParser {
 		Token t;
 		if ((t = src.nextTokenIf(JSSyntaxKind.ASTERISK)) != null) {
 			//import (defaultMember,)? * as name ...
-			IdentifierTree identifier = new IdentifierTreeImpl(t.getStart(), t.getEnd(), "*");
+			IdentifierTree identifier = new IdentifierTreeImpl(t.getRange(), "*");
 			t = src.expect(JSSyntaxKind.AS);
 			IdentifierTree alias = this.parseIdentifier(src, context);
 			importSpecifiers.add(new ImportSpecifierTreeImpl(identifier.getStart(), alias.getEnd(), identifier, alias, false));
@@ -943,7 +943,7 @@ public class JSParser extends AbstractJSParser {
 				&& ((FunctionExpressionTree) initializer).getName() == null) {
 			//Infer fn name from variable id
 			FunctionExpressionTree fn = (FunctionExpressionTree) initializer;
-			initializer = new FunctionExpressionTreeImpl(fn.getStart(), fn.getEnd(), fn.getModifiers(), (IdentifierTree) name, fn.getTypeParameters(), fn.getParameters(), fn.getReturnType(), fn.isArrow(), fn.getBody());
+			initializer = new FunctionExpressionTreeImpl(fn.getRange(), fn.getModifiers(), (IdentifierTree) name, fn.getTypeParameters(), fn.getParameters(), fn.getReturnType(), fn.isArrow(), fn.getBody());
 		}
 		
 		return new VariableDeclaratorTreeImpl(name.getStart(), src.getPosition(), name, type, initializer);
@@ -2004,7 +2004,7 @@ public class JSParser extends AbstractJSParser {
 	
 	protected TypeTree parseThisType(JSLexer src, Context context) {
 		IdentifierTree ident = this.parseIdentifier(src, context);//TODO: does this work because lookahead is a keyword?
-		TypeTree result = new TypeReferenceTreeImpl(ident.getStart(), ident.getEnd(), ident, Collections.emptyList());
+		TypeTree result = new TypeReferenceTreeImpl(ident.getRange(), ident, Collections.emptyList());
 		//TODO: this type predicate
 		return result;
 	}
@@ -2299,7 +2299,7 @@ public class JSParser extends AbstractJSParser {
 	protected DebuggerTree parseDebugger(JSLexer src, Context context) {
 		Token debuggerKeywordToken = src.expect(JSSyntaxKind.DEBUGGER);
 		expectEOL(src, context);
-		return new DebuggerTreeImpl(debuggerKeywordToken.getStart(), debuggerKeywordToken.getEnd());
+		return new DebuggerTreeImpl(debuggerKeywordToken.getRange());
 	}
 	
 	/**
@@ -2974,7 +2974,7 @@ public class JSParser extends AbstractJSParser {
 			case METHOD_DECLARATION:
 			case GET_ACCESSOR_DECLARATION:
 			case SET_ACCESSOR_DECLARATION:
-				throw new JSSyntaxException("Cannot reinterpret method definition " + ((MethodDeclarationTree) property).getName() + " as a pattern.", property.getStart(), property.getEnd());
+				throw new JSSyntaxException("Cannot reinterpret method definition " + ((MethodDeclarationTree) property).getName() + " as a pattern.", property.getRange());
 			case ASSIGNMENT_PROPERTY:
 			case SHORTHAND_ASSIGNMENT_PROPERTY:
 				//TODO: finish
@@ -2992,14 +2992,14 @@ public class JSParser extends AbstractJSParser {
 						.stream()
 						.map(this::reinterpretObjectPropertyAsPattern)
 						.collect(Collectors.toList());
-				return new ObjectPatternTreeImpl(obj.getStart(), obj.getEnd(), properties);
+				return new ObjectPatternTreeImpl(obj.getRange(), properties);
 			}
 			case ARRAY_LITERAL: {
 				ArrayList<PatternTree> elements = new ArrayList<>();
 				for (ExpressionTree elem : ((ArrayLiteralTree) expr).getElements())
 					elements.add(elem == null ? null : this.reinterpretExpressionAsPattern(elem, true));
 				elements.trimToSize();
-				return new ArrayPatternTreeImpl(expr.getStart(), expr.getEnd(), elements);
+				return new ArrayPatternTreeImpl(expr.getRange(), elements);
 			}
 			case SPREAD:
 				if (arrayElement) {
@@ -3008,7 +3008,7 @@ public class JSParser extends AbstractJSParser {
 				}
 				break;
 			case ASSIGNMENT:
-				// return new AssignmentPatternTreeImpl(expr.getStart(), expr.getEnd(), ((AssignmentTree)expr).getVariable(), ((AssignmentTree)expr).getValue());
+				// return new AssignmentPatternTreeImpl(expr.getRange(), ((AssignmentTree)expr).getVariable(), ((AssignmentTree)expr).getValue());
 				break;
 			case OBJECT_PATTERN:
 			case ARRAY_PATTERN:
@@ -3537,7 +3537,7 @@ public class JSParser extends AbstractJSParser {
 	 */
 	protected IdentifierTree asIdentifier(Token identifierToken) {
 		String name = this.asIdentifierName(identifierToken);
-		return new IdentifierTreeImpl(identifierToken.getStart(), identifierToken.getEnd(), name);
+		return new IdentifierTreeImpl(identifierToken.getRange(), name);
 	}
 	
 	protected IdentifierTree parseIdentifierMaybe(JSLexer src, Context context) {
@@ -3666,7 +3666,7 @@ public class JSParser extends AbstractJSParser {
 	
 	protected FunctionDeclarationTree reinterpretFunctionAsDeclaration(FunctionExpressionTree expr, JSLexer src, Context context) {
 		//TODO: assert that this is good (e.g., not an arrow fn)
-		return new FunctionDeclarationTreeImpl(expr.getStart(), expr.getEnd(), expr.getModifiers(), (IdentifierTree) expr.getName(), expr.getTypeParameters(), expr.getParameters(), expr.getReturnType(), expr.getBody());
+		return new FunctionDeclarationTreeImpl(expr.getRange(), expr.getModifiers(), (IdentifierTree) expr.getName(), expr.getTypeParameters(), expr.getParameters(), expr.getReturnType(), expr.getBody());
 	}
 	
 	protected FunctionDeclarationTree parseFunctionDeclaration(JSLexer src, Context context) {
@@ -3690,7 +3690,7 @@ public class JSParser extends AbstractJSParser {
 			//TODO: exception type
 			throw new IllegalStateException("Not head");
 		
-		quasis.add(new TemplateElementTreeImpl(start.getStart(), start.getEnd(), start.getText().toString(), start.getCooked()));
+		quasis.add(new TemplateElementTreeImpl(start.getRange(), start.getText().toString(), start.getCooked()));
 		
 		TemplateLiteralToken quasi = start;
 		while (!quasi.isTail()) {
@@ -3698,7 +3698,7 @@ public class JSParser extends AbstractJSParser {
 			
 			Token tmp = src.expect(JSSyntaxKind.RIGHT_BRACE);
 			quasi = src.finishTemplate(tmp);
-			quasis.add(new TemplateElementTreeImpl(quasi.getStart(), quasi.getEnd(), quasi.getText().toString(), quasi.getCooked()));
+			quasis.add(new TemplateElementTreeImpl(quasi.getRange(), quasi.getText().toString(), quasi.getCooked()));
 		}
 		
 		return new TemplateLiteralTreeImpl(start.getStart(), src.getPosition(), quasis, expressions);
@@ -3717,7 +3717,7 @@ public class JSParser extends AbstractJSParser {
 		context.isAssignmentTarget(false);
 		context.isBindingElement(false);
 		
-		return new RegExpLiteralTreeImpl(regexToken.getStart(), regexToken.getEnd(), regexToken.getPattern(), regexToken.getRxFlags());
+		return new RegExpLiteralTreeImpl(regexToken.getRange(), regexToken.getPattern(), regexToken.getRxFlags());
 	}
 	
 	protected StringLiteralTree parseStringLiteral(JSLexer src, Context context) {
