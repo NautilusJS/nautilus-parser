@@ -3623,7 +3623,7 @@ public class JSParser extends AbstractJSParser {
 		//TODO: async keyword?
 		if (functionKeywordToken.matchesIdentifier("async")) {
 			require(JSFeature.ASYNC_FUNCTION, functionKeywordToken.getRange());
-			modifiers = modifiers.combine(Modifiers.ASYNC);
+			modifiers = modifiers.plus(Modifiers.ASYNC);
 			functionKeywordToken = src.nextToken();
 		}
 		
@@ -3635,7 +3635,7 @@ public class JSParser extends AbstractJSParser {
 		Token asteriskToken = src.nextTokenIf(JSSyntaxKind.ASTERISK);
 		if (asteriskToken != null) {
 			require(JSFeature.GENERATORS, asteriskToken.getRange());
-			modifiers = modifiers.combine(Modifiers.GENERATOR);
+			modifiers = modifiers.plus(Modifiers.GENERATOR);
 		}
 		
 		
@@ -3762,14 +3762,14 @@ public class JSParser extends AbstractJSParser {
 	 * 		AssignmentExpression[+In, ?Yield, ?Await]
 	 * </pre>
 	 */
-	protected ExpressionTree parseArrayLiteralElement(JSLexer src, Context context) {
+	protected ArrayLiteralElement parseArrayLiteralElement(JSLexer src, Context context) {
 		Token lookahead = src.peek();
 		
 		if (lookahead.matches(JSSyntaxKind.COMMA))
 			return null;
 		
 		if (lookahead.matches(JSSyntaxKind.SPREAD)) {
-			ExpressionTree result = this.parseSpread(src, context.withIn());
+			ArrayLiteralElement result = this.parseSpread(src, context.withIn());
 			if (!src.peek().matches(JSSyntaxKind.RIGHT_BRACKET)) {
 				//TODO: why not set always?
 				context.isAssignmentTarget(false);
@@ -3793,7 +3793,7 @@ public class JSParser extends AbstractJSParser {
 	protected ArrayLiteralTree parseArrayInitializer(JSLexer src, Context context) {
 		Token startToken = src.expect(JSSyntaxKind.LEFT_BRACKET);
 		
-		List<ExpressionTree> values = this.parseDelimitedList(this::parseArrayLiteralElement, this::parseCommaSeparator, TokenPredicate.match(JSSyntaxKind.RIGHT_BRACKET), src, context);
+		List<ArrayLiteralElement> values = this.parseDelimitedList(this::parseArrayLiteralElement, this::parseCommaSeparator, TokenPredicate.match(JSSyntaxKind.RIGHT_BRACKET), src, context);
 		
 		src.expect(JSSyntaxKind.RIGHT_BRACKET);
 		
