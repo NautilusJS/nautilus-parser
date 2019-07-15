@@ -2823,7 +2823,7 @@ public class JSParser extends AbstractJSParser {
 		Token operator = operators.pop();
 		Kind kind = this.mapTokenToBinaryKind(operator);
 		
-		if (kind == Kind.MEMBER_SELECT || kind == Kind.ARRAY_ACCESS)
+		if (kind == Kind.PROPERTY_ACCESS || kind == Kind.ARRAY_ACCESS)
 			return new MemberExpressionTreeImpl(kind, left, right);
 		else if (TokenPredicate.ASSIGNMENT.test(operator))
 			throw new JSSyntaxException("This shouldn't be happening", operator.getRange());
@@ -3079,7 +3079,7 @@ public class JSParser extends AbstractJSParser {
 		} else {
 			//For update-assignment operators (e.g., +=, *=), the LHS can't be a full pattern.
 			//LHS can only be an IdentifierTree or MemberExpressionTree
-			if (!(expr.getKind() == Kind.IDENTIFIER || expr.getKind() == Kind.MEMBER_SELECT || expr.getKind() == Kind.ARRAY_ACCESS))
+			if (!(expr.getKind() == Kind.IDENTIFIER || expr.getKind() == Kind.PROPERTY_ACCESS || expr.getKind() == Kind.ARRAY_ACCESS))
 				throw new JSSyntaxException("Update assignment LHS cannot be arbitrary pattern", expr.getRange());
 			
 			variable = (PatternTree) expr;//IdentifierTree/MemberExpressionTree already PatternTree's
@@ -3436,7 +3436,7 @@ public class JSParser extends AbstractJSParser {
 				context.isBindingElement(false);
 				context.isAssignmentTarget(true);
 				ExpressionTree property = this.parseIdentifier(src, context);
-				expr = new MemberExpressionTreeImpl(expr.getStart(), src.getPosition(), Kind.MEMBER_SELECT, expr, property);
+				expr = new MemberExpressionTreeImpl(expr.getStart(), src.getPosition(), Kind.PROPERTY_ACCESS, expr, property);
 			} else if (lookahead.getKind() == JSSyntaxKind.TEMPLATE_LITERAL) {
 				//TODO Tagged template literal
 				// return this.parseLiteral(src, context);
@@ -3604,7 +3604,7 @@ public class JSParser extends AbstractJSParser {
 		
 		// Get this before we pop the context
 		if (context.isStrict())
-			modifiers = modifiers.combine(Modifiers.STRICT);
+			modifiers = modifiers.plus(Modifiers.STRICT);
 		
 		//You can't assign to a function
 		context.isAssignmentTarget(false);
